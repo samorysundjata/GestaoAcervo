@@ -3,7 +3,7 @@
 > Sistema para consulta, cadastro e manutenção de gêneros, autores e livros.  
 > Desafio Técnico — Siemens
 
-## Badges
+---
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet)
 ![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
@@ -17,16 +17,15 @@
 
 ## Índice
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Arquitetura](#-arquitetura)
-- [Pré-requisitos](#-pré-requisitos)
-- [Execução com Docker (recomendado)](#-execução-com-docker-recomendado)
-- [Configuração e Execução — Backend (sem Docker)](#-configuração-e-execução--backend-sem-docker)
-- [Configuração e Execução — Frontend (sem Docker)](#-configuração-e-execução--frontend-sem-docker)
-- [Executando os Testes](#-executando-os-testes)
-- [Documentação da API](#-documentação-da-api)
-- [Variáveis de Ambiente](#-variáveis-de-ambiente)
-- [Documentação Técnica](#-documentação-técnica)
+- [Sobre o Projeto]
+- [Arquitetura]
+- [Pré-requisitos]
+- [Execução com Docker (recomendado)]
+- [Configuração e Execução — Backend (sem Docker)]
+- [Configuração e Execução — Frontend (sem Docker)]
+- [Executando os Testes]
+- [Documentação da API]
+- [Estrutura do Repositório]
 
 ---
 
