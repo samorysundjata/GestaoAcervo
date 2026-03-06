@@ -17,15 +17,16 @@
 
 ## Índice
 
-- [Sobre o Projeto]
-- [Arquitetura]
-- [Pré-requisitos]
-- [Execução com Docker (recomendado)]
-- [Configuração e Execução — Backend (sem Docker)]
-- [Configuração e Execução — Frontend (sem Docker)]
-- [Executando os Testes]
-- [Documentação da API]
-- [Estrutura do Repositório]
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Arquitetura](#arquitetura)
+- [Pré-requisitos](#pré-requisitos)
+- [Execução com Docker (recomendado)](#execução-com-docker-recomendado)
+- [Configuração e Execução — Backend (sem Docker)](#configuração-e-execução--backend-sem-docker)
+- [Configuração e Execução — Frontend (sem Docker)](#configuração-e-execução--frontend-sem-docker)
+- [Executando os Testes](#executando-os-testes)
+- [Documentação da API](#documentação-da-api)
+- [Estrutura do Repositório](#estrutura-do-repositório)
+- [Licença](#licença)
 
 ---
 
@@ -57,13 +58,17 @@ Acervo.API  (.NET 8 Minimal API)
 
 O backend segue **Clean Architecture** dividida em quatro projetos:
 
-| Projeto | Responsabilidade |
-|---------|-----------------||
-| `Acervo.Domain` | Entidades, IRepository interfaces, Result pattern |
-| `Acervo.Infrastructure` | DbContext, Repositories, Migrations |
-| `Acervo.Application` | IService interfaces, Services, DTOs, ViewModels, Validators, Mappings |
-| `Acervo.API` | Endpoints (Minimal API), Configuração, AppSettings |
-| `Acervo.Tests` | Testes de Unidade (xUnit + Moq) |
+| Projeto                 | Responsabilidade                                                      |
+| ----------------------- | --------------------------------------------------------------------- |
+| `Acervo.Domain`         | Entidades, IRepository interfaces, Result pattern                     |
+| `Acervo.Infrastructure` | DbContext, Repositories, Migrations                                   |
+| `Acervo.Application`    | IService interfaces, Services, DTOs, ViewModels, Validators, Mappings |
+| `Acervo.API`            | Endpoints (Minimal API), Configuração, AppSettings                    |
+| `Acervo.Tests`          | Testes de Unidade (xUnit + Moq)                                       |
+
+### Diagrama de Contexto
+
+![Diagrama de Contexto - Gestão Acervo](./out/docs/C4/Context/Context.png)
 
 ---
 

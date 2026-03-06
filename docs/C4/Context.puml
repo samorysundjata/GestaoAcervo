@@ -1,6 +1,8 @@
 @startuml Context
-!define C4P https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master
-' !include https://raw.githubusercontent.com/plantuml-ext/C4-PlantUML/latest/C4_Context.puml
+' Diagrama de Contexto - Gestão Acervo - C4 Model
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
 
 title Gestão Acervo - Diagrama de Contexto
 
