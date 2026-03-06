@@ -26,6 +26,7 @@
 - [Executando os Testes](#executando-os-testes)
 - [Documentação da API](#documentação-da-api)
 - [Estrutura do Repositório](#estrutura-do-repositório)
+- [Bugs conhecidos](#bugs-conhecidos)
 - [Licença](#licença)
 
 ---
@@ -322,6 +323,10 @@ gestaoacervo/
 ```
 
 ---
+
+## Bugs conhecidos
+
+O arquivo entrypoint.sh (\docker\sqlserver\entrypoint.sh) pode ser baixado inadivertidamente com quebra de linha do Windows (CRFL, \r\n) e o shell do Linux (o que o Docker está usando) espera um arquivo com LF (Unix, \n). Como este arquivo é ponto de entrada para inicializar o SQL Server na virtualização ele pode travar a criação do container de banco de dados. Abra este arquivo no Visual Studio Code e mude-o de CRLF para LF se for o caso.
 
 ## Licença
 
