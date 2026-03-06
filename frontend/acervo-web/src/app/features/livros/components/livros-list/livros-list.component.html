@@ -1,0 +1,28 @@
+<div class="action-bar">
+  <h2>Livros</h2>
+  <a mat-flat-button color="primary" routerLink="novo"><mat-icon>add</mat-icon> Novo Livro</a>
+</div>
+<app-loading-spinner *ngIf="loading$ | async"></app-loading-spinner>
+<mat-table [dataSource]="(livros$ | async) ?? []" *ngIf="!(loading$ | async)">
+  <ng-container matColumnDef="titulo">
+    <mat-header-cell *matHeaderCellDef>Título</mat-header-cell>
+    <mat-cell *matCellDef="let l">{{ l.titulo }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="isbn">
+    <mat-header-cell *matHeaderCellDef>ISBN</mat-header-cell>
+    <mat-cell *matCellDef="let l">{{ l.isbn }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="anoPublicacao">
+    <mat-header-cell *matHeaderCellDef>Ano</mat-header-cell>
+    <mat-cell *matCellDef="let l">{{ l.anoPublicacao }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+    <mat-cell *matCellDef="let l">
+      <a mat-icon-button [routerLink]="[l.id, 'editar']"><mat-icon>edit</mat-icon></a>
+      <button mat-icon-button color="warn" (click)="onDelete(l.id, l.titulo)"><mat-icon>delete</mat-icon></button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

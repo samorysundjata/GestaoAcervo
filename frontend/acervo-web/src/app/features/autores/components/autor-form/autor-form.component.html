@@ -1,0 +1,22 @@
+<div class="page-container">
+  <h2>{{ editId ? 'Editar' : 'Novo' }} Autor</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" style="width:100%; margin-bottom:16px">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome">
+      <mat-error *ngIf="form.get('nome')?.hasError('required')">Nome é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width:100%; margin-bottom:16px">
+      <mat-label>E-mail</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="form.get('email')?.hasError('required')">E-mail é obrigatório</mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
+    </mat-form-field>
+
+    <div style="display:flex; gap:8px">
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
+      <button mat-button type="button" routerLink="/autores">Cancelar</button>
+    </div>
+  </form>
+</div>

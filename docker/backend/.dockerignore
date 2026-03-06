@@ -1,0 +1,24 @@
+# =============================================================================
+# .dockerignore — Backend (Acervo.API)
+# =============================================================================
+
+# Diretórios de build locais
+**/bin/
+**/obj/
+
+# Testes (não incluídos na imagem de produção)
+**/*.Tests/
+
+# Configurações locais sensíveis
+**/appsettings.Development.json
+**/.env
+
+# Ferramentas e IDEs
+**/.vs/
+**/.vscode/
+**/.idea/
+**/*.user
+
+# Git
+**/.git/
+**/.gitignore

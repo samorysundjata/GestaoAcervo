@@ -1,0 +1,22 @@
+# =============================================================================
+# .dockerignore — Frontend (acervo-web)
+# =============================================================================
+
+# Dependências (serão instaladas no build do container)
+node_modules/
+
+# Artefatos de build locais
+dist/
+.angular/
+
+# Configurações de ambiente locais
+src/environments/environment.development.ts
+
+# IDEs e ferramentas
+.vscode/
+.idea/
+*.log
+
+# Git
+.git/
+.gitignore

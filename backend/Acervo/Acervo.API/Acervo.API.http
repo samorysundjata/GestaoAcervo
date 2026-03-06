@@ -1,0 +1,6 @@
+@Acervo.API_HostAddress = http://localhost:5145
+
+GET {{Acervo.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

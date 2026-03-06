@@ -1,0 +1,20 @@
+<div class="action-bar">
+  <h2>Gêneros</h2>
+  <a mat-flat-button color="primary" routerLink="novo"><mat-icon>add</mat-icon> Novo Gênero</a>
+</div>
+<app-loading-spinner *ngIf="loading$ | async"></app-loading-spinner>
+<mat-table [dataSource]="(generos$ | async) ?? []" *ngIf="!(loading$ | async)">
+  <ng-container matColumnDef="nome">
+    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+    <mat-cell *matCellDef="let g">{{ g.nome }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+    <mat-cell *matCellDef="let g">
+      <a mat-icon-button [routerLink]="[g.id, 'editar']"><mat-icon>edit</mat-icon></a>
+      <button mat-icon-button color="warn" (click)="onDelete(g.id, g.nome)"><mat-icon>delete</mat-icon></button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

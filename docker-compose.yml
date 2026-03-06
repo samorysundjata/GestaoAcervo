@@ -1,0 +1,108 @@
+# =============================================================================
+# docker-compose.yml — Gestão Acervo (Development)
+# =============================================================================
+# Serviços:
+#   sqlserver  → SQL Server 2022 (porta 1433)
+#   api        → Acervo.API .NET 8 (porta 5000)
+#   web        → acervo-web Angular 17 via Nginx (porta 4200)
+#
+# Uso:
+#   docker compose up --build          (primeira vez ou após mudanças)
+#   docker compose up                  (execuções subsequentes)
+#   docker compose down -v             (remove containers e volumes)
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # SQL Server 2022
+  # ---------------------------------------------------------------------------
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: acervo_sqlserver
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${SA_PASSWORD:-Acervo@Dev2024!}"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql                          # persistência dos dados
+      - ./docker/sqlserver/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+      - ./docker/sqlserver/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/opt/mssql-tools18/bin/sqlcmd",
+          "-S", "localhost",
+          "-U", "sa",
+          "-P", "${SA_PASSWORD:-Acervo@Dev2024!}",
+          "-Q", "SELECT 1",
+          "-No"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - acervo_network
+
+  # ---------------------------------------------------------------------------
+  # Acervo.API — .NET 8 Minimal API
+  # ---------------------------------------------------------------------------
+  api:
+    build:
+      context: ./backend/Acervo
+      dockerfile: ../../docker/backend/Dockerfile
+    container_name: acervo_api
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: >-
+        Server=sqlserver,1433;
+        Database=AcervoDB;
+        User Id=sa;
+        Password=${SA_PASSWORD:-Acervo@Dev2024!};
+        TrustServerCertificate=True;
+        MultipleActiveResultSets=True;
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy          # aguarda SQL Server estar saudável
+    networks:
+      - acervo_network
+
+  # ---------------------------------------------------------------------------
+  # acervo-web — Angular 17 via Nginx
+  # ---------------------------------------------------------------------------
+  web:
+    build:
+      context: ./frontend/acervo-web
+      dockerfile: ../../docker/frontend/Dockerfile
+    container_name: acervo_web
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+    networks:
+      - acervo_network
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  sqlserver_data:
+    driver: local
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  acervo_network:
+    driver: bridge

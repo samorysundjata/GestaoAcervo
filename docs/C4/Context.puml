@@ -1,0 +1,18 @@
+@startuml Context
+!define C4P https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master
+' !include https://raw.githubusercontent.com/plantuml-ext/C4-PlantUML/latest/C4_Context.puml
+
+title Gestão Acervo - Diagrama de Contexto
+
+Person(user, "Usuário", "Gerencia o acervo de livros, autores e gêneros")
+
+System(gestaoAcervo, "Gestão Acervo", "Sistema de gerenciamento de acervo com cadastro de autores, gêneros e livros")
+
+System_Ext(sqlServer, "SQL Server", "Banco de dados relacional para persistência de dados")
+
+Rel(user, gestaoAcervo, "Utiliza", "HTTP/HTTPS")
+Rel(gestaoAcervo, sqlServer, "Lê/Escreve", "T-SQL")
+
+SHOW_LEGEND()
+
+@enduml
