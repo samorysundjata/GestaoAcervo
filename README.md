@@ -24,6 +24,7 @@
 - [Configuração e Execução — Backend (sem Docker)](#configuração-e-execução--backend-sem-docker)
 - [Configuração e Execução — Frontend (sem Docker)](#configuração-e-execução--frontend-sem-docker)
 - [Executando os Testes](#executando-os-testes)
+- [Collections](#collections-para-teste-de-api)
 - [Documentação da API](#documentação-da-api)
 - [Estrutura do Repositório](#estrutura-do-repositório)
 - [Bugs conhecidos](#bugs-conhecidos)
@@ -237,6 +238,12 @@ ng test
 
 ---
 
+## Collections para teste de API
+
+No diretório `./docs/collections` há uma collection em **JSON** para ser usada no Insomnia e outra para o Postman.
+
+---
+
 ## Documentação da API
 
 Com a API em execução, acesse o **Swagger UI**:
@@ -303,7 +310,11 @@ gestaoacervo/
 ├── .env.example                 → Template de variáveis de ambiente
 ├── .gitignore
 ├── README.md
-│
+├── LICENSE
+|
+├── docs/
+|   ├── collections/             → Collections para testar a aplicação
+|
 ├── docker/
 │   ├── backend/
 │   │   ├── Dockerfile           → Multi-stage build da Acervo.API
@@ -319,7 +330,7 @@ gestaoacervo/
 ├── backend/
 │   └── Acervo/                  → Solution .NET 8
 ├── frontend/
-│   └── acervo-web/       → SPA Angular 17
+│   └── acervo-web/              → SPA Angular 17
 ```
 
 ---

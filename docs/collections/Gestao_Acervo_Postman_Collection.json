@@ -1,0 +1,715 @@
+{
+  "info": {
+    "name": "Gestão Acervo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection completa para testes da API Gestão Acervo"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "autor_id_martin",
+      "value": ""
+    },
+    {
+      "key": "genero_id_tecnologia",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Gêneros",
+      "description": "CRUD completo de Gêneros",
+      "item": [
+        {
+          "name": "01 — Criar Gênero: Tecnologia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    pm.collectionVariables.set('genero_id_tecnologia', json.data.id);",
+                  "    console.log('genero_id_tecnologia:', json.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Tecnologia\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/generos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "02 — Criar Gênero: Ficção Científica",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ficção Científica\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/generos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "03 — Criar Gênero: Autoajuda",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Autoajuda\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/generos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "04 — Listar todos os Gêneros",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/generos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "05 — Buscar Gênero por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/generos/{{genero_id_tecnologia}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos",
+                "{{genero_id_tecnologia}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "06 — Atualizar Gênero",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Tecnologia & Programação\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/generos/{{genero_id_tecnologia}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos",
+                "{{genero_id_tecnologia}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "07 — Deletar Gênero (sem livros vinculados)",
+          "description": "Use o ID de um gênero sem livros vinculados para testar deleção com sucesso.",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/generos/{{genero_id_tecnologia}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos",
+                "{{genero_id_tecnologia}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Autores",
+      "description": "CRUD completo de Autores",
+      "item": [
+        {
+          "name": "01 — Criar Autor: Robert C. Martin",
+          "description": "Cria o autor Uncle Bob. O id retornado é salvo automaticamente na variável autor_id_martin.",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    pm.collectionVariables.set('autor_id_martin', json.data.id);",
+                  "    console.log('autor_id_martin:', json.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Robert C. Martin\",\n  \"email\": \"uncle.bob@cleancode.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/autores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "02 — Criar Autor: Donald Knuth",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Donald Knuth\",\n  \"email\": \"knuth@stanford.edu\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/autores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "03 — Criar Autor: Martin Fowler",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Martin Fowler\",\n  \"email\": \"martin@martinfowler.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/autores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "04 — Listar todos os Autores",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/autores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "05 — Buscar Autor por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/autores/{{autor_id_martin}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores",
+                "{{autor_id_martin}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "06 — Atualizar Autor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Robert Cecil Martin\",\n  \"email\": \"uncle.bob@cleancode.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/autores/{{autor_id_martin}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores",
+                "{{autor_id_martin}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "07 — Deletar Autor (sem livros vinculados)",
+          "description": "Use o ID de um autor sem livros vinculados.",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/autores/{{autor_id_martin}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores",
+                "{{autor_id_martin}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Livros",
+      "description": "CRUD completo de Livros",
+      "item": [
+        {
+          "name": "01 — Criar Livro: Clean Code",
+          "description": "Substitua autorId e generoId pelos IDs reais criados anteriormente (ou use as variáveis).",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Clean Code\",\n  \"isbn\": \"9780132350884\",\n  \"anoPublicacao\": 2008,\n  \"autorId\": \"{{autor_id_martin}}\",\n  \"generoId\": \"{{genero_id_tecnologia}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "02 — Criar Livro: Clean Architecture",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Clean Architecture\",\n  \"isbn\": \"9780134494166\",\n  \"anoPublicacao\": 2017,\n  \"autorId\": \"{{autor_id_martin}}\",\n  \"generoId\": \"{{genero_id_tecnologia}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "03 — Criar Livro: The Art of Computer Programming",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"The Art of Computer Programming\",\n  \"isbn\": \"9780201896848\",\n  \"anoPublicacao\": 1968,\n  \"autorId\": \"{{autor_id_martin}}\",\n  \"generoId\": \"{{genero_id_tecnologia}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "04 — Criar Livro: Desenvolvimento Ágil Limpo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Desenvolvimento Ágil Limpo\",\n  \"isbn\": \"9788550815008\",\n  \"anoPublicacao\": 2020,\n  \"autorId\": \"{{autor_id_martin}}\",\n  \"generoId\": \"{{genero_id_tecnologia}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "05 — Listar todos os Livros",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "06 — Buscar Livro por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/livros/2ea261d3-664a-4811-b030-21218032a80d",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros",
+                "2ea261d3-664a-4811-b030-21218032a80d"
+              ]
+            }
+          }
+        },
+        {
+          "name": "07 — Atualizar Livro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Clean Code: A Handbook of Agile Software Craftsmanship\",\n  \"isbn\": \"9780132350884\",\n  \"anoPublicacao\": 2008,\n  \"autorId\": \"{{autor_id_martin}}\",\n  \"generoId\": \"{{genero_id_tecnologia}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "08 — Deletar Livro",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/livros/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Casos de Erro (Regras de Negócio)",
+      "description": "Testa as validações de negócio — todas devem retornar erro",
+      "item": [
+        {
+          "name": "01 — ISBN Duplicado → 409 Conflict",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Outro Livro com ISBN Igual\",\n  \"isbn\": \"9780132350884\",\n  \"anoPublicacao\": 2020,\n  \"autorId\": \"{{autor_id_martin}}\",\n  \"generoId\": \"{{genero_id_tecnologia}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "02 — E-mail Duplicado → 409 Conflict",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Outro Autor\",\n  \"email\": \"uncle.bob@cleancode.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/autores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "03 — Deletar Autor com Livros → 422 Unprocessable Entity",
+          "description": "Tenta deletar um autor que possui livros vinculados.",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/autores/{{autor_id_martin}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "autores",
+                "{{autor_id_martin}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "04 — Deletar Gênero com Livros → 422 Unprocessable Entity",
+          "description": "Tenta deletar um gênero que possui livros vinculados.",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/generos/{{genero_id_tecnologia}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "generos",
+                "{{genero_id_tecnologia}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "05 — Recurso não encontrado → 404 Not Found",
+          "description": "Busca um ID inexistente.",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/livros/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          }
+        },
+        {
+          "name": "06 — Campos obrigatórios em branco → 400 Bad Request",
+          "description": "Envia body com campos obrigatórios ausentes.",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"\",\n  \"isbn\": \"\",\n  \"anoPublicacao\": 0,\n  \"autorId\": \"\",\n  \"generoId\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "07 — Ano de Publicação inválido → 400 Bad Request",
+          "description": "Envia um ano de publicação fora do intervalo válido (1400 - ano atual).",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Livro do Futuro\",\n  \"isbn\": \"9780000000001\",\n  \"anoPublicacao\": 2099,\n  \"autorId\": \"\",\n  \"generoId\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/livros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "livros"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
