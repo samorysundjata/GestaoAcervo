@@ -60,13 +60,13 @@ Acervo.API  (.NET 8 Minimal API)
 
 O backend segue **Clean Architecture** dividida em quatro projetos:
 
-| Projeto                 | Responsabilidade                                                      |
-| ----------------------- | --------------------------------------------------------------------- |
-| `Acervo.Domain`         | Entidades, IRepository interfaces, Result pattern                     |
-| `Acervo.Infrastructure` | DbContext, Repositories, Migrations                                   |
-| `Acervo.Application`    | IService interfaces, Services, DTOs, ViewModels, Validators, Mappings |
-| `Acervo.API`            | Endpoints (Minimal API), Configuração, AppSettings                    |
-| `Acervo.Tests`          | Testes de Unidade (xUnit + Moq)                                       |
+| Projeto                 | Responsabilidade                                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `Acervo.Domain`         | Entidades, Result pattern                                                           |
+| `Acervo.Infrastructure` | DbContext, Repositories, Migrations                                                 |
+| `Acervo.Application`    | IService e IRepository interfaces, Services, DTOs, ViewModels, Validators, Mappings |
+| `Acervo.API`            | Endpoints (Minimal API), Configuração, AppSettings                                  |
+| `Acervo.Tests`          | Testes de Unidade (xUnit + Moq)                                                     |
 
 ### Diagrama de Contexto
 
