@@ -4,7 +4,8 @@
 *.local
 
 # Requirements & Docs
-.docs/requs/
+docs/specs/
+# .docs/requs/
 
 # .NET
 **/bin/
