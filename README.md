@@ -1,7 +1,6 @@
 # Gestão Acervo Literário
 
 > Sistema para consulta, cadastro e manutenção de gêneros, autores e livros.  
-> Desafio Técnico — Siemens
 
 ---
 
@@ -137,10 +136,10 @@ O Compose irá automaticamente:
 
 | Serviço       | URL                           |
 | ------------- | ----------------------------- |
-| 🌐 Frontend   | http://localhost:4200         |
-| 🔌 API REST   | http://localhost:5000/api/v1  |
-| 📖 Swagger UI | http://localhost:5000/swagger |
-| 🗄️ SQL Server | `localhost,1433` / user: `sa` |
+| Frontend      | http://localhost:4200         |
+| API REST      | http://localhost:5000/api/v1  |
+| Swagger UI    | http://localhost:5000/swagger |
+| SQL Server    | `localhost,1433` / user: `sa` |
 
 ### Comandos úteis
 
