@@ -1,12 +1,12 @@
-<div class="page-container">
+<div class="mx-auto max-w-[1200px] p-6">
   <h2>{{ editId ? 'Editar' : 'Novo' }} Gênero</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline" style="width:100%; margin-bottom:16px">
+    <mat-form-field appearance="outline" class="mb-4 w-full">
       <mat-label>Nome</mat-label>
       <input matInput formControlName="nome">
       <mat-error *ngIf="form.get('nome')?.hasError('required')">Nome é obrigatório</mat-error>
     </mat-form-field>
-    <div style="display:flex; gap:8px">
+    <div class="flex gap-2">
       <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
       <button mat-button type="button" routerLink="/generos">Cancelar</button>
     </div>

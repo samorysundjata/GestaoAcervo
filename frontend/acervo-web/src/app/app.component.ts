@@ -8,7 +8,7 @@ import { NavbarComponent } from './core/layout/navbar/navbar.component';
   imports: [RouterOutlet, NavbarComponent],
   template: `
     <app-navbar></app-navbar>
-    <main class="page-container">
+    <main class="mx-auto max-w-[1200px] p-6">
       <router-outlet></router-outlet>
     </main>
   `

@@ -11,6 +11,7 @@
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
 ![EF Core](https://img.shields.io/badge/EF_Core-8.x-512BD4?style=flat-square)
 ![NgRx](https://img.shields.io/badge/NgRx-17-BA2BD2?style=flat-square)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38BDF8?style=flat-square&logo=tailwindcss)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)
 [![MIT License](https://img.shields.io/badge/License-MIT-teal.svg)](./LICENSE)
 
@@ -25,6 +26,7 @@
 - [Configuração e Execução — Backend (sem Docker)](#configuração-e-execução--backend-sem-docker)
 - [Configuração e Execução — Frontend (sem Docker)](#configuração-e-execução--frontend-sem-docker)
 - [Executando os Testes](#executando-os-testes)
+- [Estilização — Angular Material + Tailwind CSS v4](#estilização--angular-material--tailwind-css-v4)
 - [Collections](#collections-para-teste-de-api)
 - [Documentação da API](#documentação-da-api)
 - [Estrutura do Repositório](#estrutura-do-repositório)
@@ -38,7 +40,7 @@
 O **Gestão Acervo** é uma aplicação full-stack para gerenciamento de acervo bibliográfico, composta por:
 
 - **Acervo.API** — API REST em .NET 8 (Minimal API) com versionamento de rotas, documentação Swagger e respostas padronizadas.
-- **acervo-web** — SPA em Angular 17 com NgRx para gerenciamento de estado.
+- **acervo-web** — SPA em Angular 17 com NgRx para gerenciamento de estado e abordagem híbrida de estilização: componentes **Angular Material** + utilitários **Tailwind CSS v4**.
 
 ### Regras de Negócio Principais
 
@@ -236,6 +238,66 @@ ng test --watch=false
 # Modo watch (desenvolvimento)
 ng test
 ```
+
+---
+
+## Estilização — Angular Material + Tailwind CSS v4
+
+O frontend utiliza uma **estratégia híbrida de estilização**:
+
+- **Angular Material 17** — componentes de UI (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs etc.) e o tema pré-construído `indigo-pink`.
+- **Tailwind CSS v4** — classes utilitárias para layout, espaçamento, flex/grid e breakpoints responsivos.
+
+### Por que essa abordagem híbrida?
+
+Tailwind v4 e Angular Material coexistem com segurança **desde que o Preflight do Tailwind (reset base) seja desativado** — caso contrário, ele sobrescreveria os resets do próprio Material e quebraria a estilização dos componentes. Importamos apenas as layers `theme` e `utilities`:
+
+```scss
+// frontend/acervo-web/src/styles.scss
+@use '@angular/material' as mat;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+```
+
+### Arquivos de configuração
+
+O projeto segue as convenções do **Tailwind v4** (sem `tailwind.config.js`, sem diretivas `@tailwind`):
+
+| Arquivo               | Finalidade                                                       |
+| --------------------- | ---------------------------------------------------------------- |
+| `.postcssrc.json`     | Registra o plugin `@tailwindcss/postcss` para o Angular CLI      |
+| `src/styles.scss`     | Importa as layers `theme` e `utilities` do Tailwind              |
+| `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` como devDeps    |
+
+### Instalação (já aplicada)
+
+```bash
+cd frontend/acervo-web
+npm install -D tailwindcss @tailwindcss/postcss postcss --legacy-peer-deps
+```
+
+> A flag `--legacy-peer-deps` é necessária porque o `@angular-devkit/build-angular` do Angular 17 declara um `peerOptional` em Tailwind v2/v3. Isso é inofensivo: a integração via PostCSS funciona independentemente dessa pista.
+
+### Diretrizes de uso
+
+- Use **componentes do Material** para UI interativa (formulários, tabelas, dialogs, menus, botões com elevação).
+- Use **utilitários do Tailwind** para layout, espaçamento, breakpoints responsivos e ajustes visuais pontuais — evite escrever CSS customizado quando existir um utilitário.
+- Ao customizar o container de um componente Material, prefira utilitários do Tailwind no wrapper em vez de overrides profundos no tema do Material.
+
+### Customizando o tema do Tailwind (forma v4)
+
+Tokens de tema ficam diretamente no CSS via `@theme`. Exemplo:
+
+```scss
+// src/styles.scss
+@theme {
+  --color-brand-500: #1976d2;
+  --font-sans: "Roboto", "Helvetica Neue", sans-serif;
+}
+```
+
+Esses tokens geram utilitários automaticamente (ex.: `bg-brand-500`, `text-brand-500`).
 
 ---
 

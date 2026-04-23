@@ -11,6 +11,7 @@
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
 ![EF Core](https://img.shields.io/badge/EF_Core-8.x-512BD4?style=flat-square)
 ![NgRx](https://img.shields.io/badge/NgRx-17-BA2BD2?style=flat-square)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38BDF8?style=flat-square&logo=tailwindcss)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)
 [![MIT License](https://img.shields.io/badge/License-MIT-teal.svg)](./LICENSE)
 
@@ -25,6 +26,7 @@
 - [Setup and Run — Backend (without Docker)](#setup-and-run--backend-without-docker)
 - [Setup and Run — Frontend (without Docker)](#setup-and-run--frontend-without-docker)
 - [Running the Tests](#running-the-tests)
+- [Styling — Angular Material + Tailwind CSS v4](#styling--angular-material--tailwind-css-v4)
 - [API Test Collections](#api-test-collections)
 - [API Documentation](#api-documentation)
 - [Repository Structure](#repository-structure)
@@ -38,7 +40,7 @@
 **Gestão Acervo** is a full-stack application for managing a bibliographic collection, composed of:
 
 - **Acervo.API** — A .NET 8 REST API (Minimal API) with route versioning, Swagger documentation, and standardized responses.
-- **acervo-web** — An Angular 17 SPA using NgRx for state management.
+- **acervo-web** — An Angular 17 SPA using NgRx for state management and a hybrid styling approach: **Angular Material** components + **Tailwind CSS v4** utility classes.
 
 ### Core Business Rules
 
@@ -236,6 +238,66 @@ ng test --watch=false
 # Watch mode (development)
 ng test
 ```
+
+---
+
+## Styling — Angular Material + Tailwind CSS v4
+
+The frontend uses a **hybrid styling strategy**:
+
+- **Angular Material 17** — UI components (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs, etc.) and the `indigo-pink` prebuilt theme.
+- **Tailwind CSS v4** — utility classes for layout, spacing, flex/grid, and responsive breakpoints.
+
+### Why this hybrid approach?
+
+Tailwind v4 and Angular Material can coexist safely **as long as Tailwind's Preflight (base reset) is skipped** — otherwise it would override Material's own resets and break component styling. We import only the `theme` and `utilities` layers:
+
+```scss
+// frontend/acervo-web/src/styles.scss
+@use '@angular/material' as mat;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+```
+
+### Setup reference
+
+The project follows Tailwind **v4** conventions (no `tailwind.config.js`, no `@tailwind` directives):
+
+| File                  | Purpose                                                      |
+| --------------------- | ------------------------------------------------------------ |
+| `.postcssrc.json`     | Registers the `@tailwindcss/postcss` plugin for Angular CLI  |
+| `src/styles.scss`     | Imports Tailwind's `theme` and `utilities` layers            |
+| `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` as devDeps  |
+
+### Installation (already applied)
+
+```bash
+cd frontend/acervo-web
+npm install -D tailwindcss @tailwindcss/postcss postcss --legacy-peer-deps
+```
+
+> `--legacy-peer-deps` is required because Angular 17's `@angular-devkit/build-angular` declares a soft `peerOptional` on Tailwind v2/v3. This is harmless: PostCSS integration works independently of that hint.
+
+### Usage guidelines
+
+- Use **Material components** for interactive UI (forms, tables, dialogs, menus, buttons with elevation).
+- Use **Tailwind utilities** for layout, spacing, responsive breakpoints, and one-off visual tweaks — avoid writing new custom CSS when a utility exists.
+- When customizing a Material component's container, prefer Tailwind utilities on the wrapper over deep Material theme overrides.
+
+### Customizing the Tailwind theme (v4 way)
+
+Theme tokens live directly in CSS via `@theme`. Example:
+
+```scss
+// src/styles.scss
+@theme {
+  --color-brand-500: #1976d2;
+  --font-sans: "Roboto", "Helvetica Neue", sans-serif;
+}
+```
+
+These tokens generate utilities automatically (e.g., `bg-brand-500`, `text-brand-500`).
 
 ---
 
