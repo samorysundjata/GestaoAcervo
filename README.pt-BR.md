@@ -247,30 +247,34 @@ ng test
 
 O frontend utiliza uma **estratégia híbrida de estilização**:
 
-- **Angular Material 17** — componentes de UI (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs etc.) e o tema pré-construído `indigo-pink`.
+- **Angular Material 17** — componentes de UI (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs etc.) e o tema pré-construído `purple-green`.
 - **Tailwind CSS v4** — classes utilitárias para layout, espaçamento, flex/grid e breakpoints responsivos.
 
 ### Por que essa abordagem híbrida?
 
-Tailwind v4 e Angular Material coexistem com segurança **desde que o Preflight do Tailwind (reset base) seja desativado** — caso contrário, ele sobrescreveria os resets do próprio Material e quebraria a estilização dos componentes. Importamos apenas as layers `theme` e `utilities`:
+Tailwind v4 e Angular Material coexistem com segurança **desde que o Preflight do Tailwind (reset base) seja desativado** — caso contrário, ele sobrescreveria os resets do próprio Material e quebraria a estilização dos componentes. Os imports do Tailwind ficam em um **arquivo CSS puro** (separado do SCSS) porque as diretivas CSS-first do Tailwind v4 (`@theme`, layered imports) são interpretadas pelo plugin PostCSS, e o preprocessamento SCSS pode interferir nelas:
 
-```scss
-// frontend/acervo-web/src/styles.scss
-@use '@angular/material' as mat;
-
+```css
+/* frontend/acervo-web/src/tailwind.css */
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --color-brand-500: #9c27b0; /* Material Purple 500 — alinhado ao prebuilt `purple-green` */
+}
 ```
 
 ### Arquivos de configuração
 
 O projeto segue as convenções do **Tailwind v4** (sem `tailwind.config.js`, sem diretivas `@tailwind`):
 
-| Arquivo               | Finalidade                                                       |
-| --------------------- | ---------------------------------------------------------------- |
-| `.postcssrc.json`     | Registra o plugin `@tailwindcss/postcss` para o Angular CLI      |
-| `src/styles.scss`     | Importa as layers `theme` e `utilities` do Tailwind              |
-| `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` como devDeps    |
+| Arquivo               | Finalidade                                                          |
+| --------------------- | ------------------------------------------------------------------- |
+| `.postcssrc.json`     | Registra o plugin `@tailwindcss/postcss` para o Angular CLI         |
+| `src/tailwind.css`    | Imports do Tailwind (`theme` + `utilities`) e tokens `@theme`       |
+| `src/styles.scss`     | Setup do Angular Material e regras globais `html`/`body`            |
+| `angular.json`        | Declara `src/tailwind.css` em `architect.build.options.styles[]`    |
+| `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` como devDeps       |
 
 ### Instalação (já aplicada)
 
@@ -289,17 +293,17 @@ npm install -D tailwindcss @tailwindcss/postcss postcss --legacy-peer-deps
 
 ### Customizando o tema do Tailwind (forma v4)
 
-Tokens de tema ficam diretamente no CSS via `@theme`. Exemplo:
+Tokens de tema ficam diretamente no CSS via `@theme` — sempre adicione-os em `src/tailwind.css`, nunca em `styles.scss` (o preprocessamento SCSS remove as diretivas do Tailwind v4). Exemplo:
 
-```scss
-// src/styles.scss
+```css
+/* src/tailwind.css */
 @theme {
-  --color-brand-500: #1976d2;
+  --color-brand-500: #9c27b0;
   --font-sans: "Roboto", "Helvetica Neue", sans-serif;
 }
 ```
 
-Esses tokens geram utilitários automaticamente (ex.: `bg-brand-500`, `text-brand-500`).
+Esses tokens geram utilitários automaticamente (ex.: `bg-brand-500`, `text-brand-500`). Nota: o Tailwind v4 faz tree-shaking de tokens não utilizados — um token só entra no `styles.css` final quando algum utilitário de fato o referencia.
 
 ---
 

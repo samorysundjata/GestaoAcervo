@@ -3,31 +3,39 @@
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
-/* Brand design tokens — mirror Angular Material `indigo-pink` prebuilt theme
-   so Tailwind utilities (bg-brand-500, text-accent-500, border-warn-500, etc.)
-   stay visually aligned with `mat-button color="primary|accent|warn"`. */
-@theme {
-  --color-brand-50: #e8eaf6;
-  --color-brand-100: #c5cae9;
-  --color-brand-200: #9fa8da;
-  --color-brand-300: #7986cb;
-  --color-brand-400: #5c6bc0;
-  --color-brand-500: #3f51b5;
-  --color-brand-600: #3949ab;
-  --color-brand-700: #303f9f;
-  --color-brand-800: #283593;
-  --color-brand-900: #1a237e;
+/* Brand design tokens — mirror Angular Material `purple-green` prebuilt theme
+   so Tailwind utilities (bg-brand-700, text-accent-highlight, border-warn-500,
+   etc.) stay visually aligned with `mat-button color="primary|accent|warn"`.
 
-  --color-accent-50: #fce4ec;
-  --color-accent-100: #f8bbd0;
-  --color-accent-200: #f48fb1;
-  --color-accent-300: #f06292;
-  --color-accent-400: #ec407a;
-  --color-accent-500: #e91e63;
-  --color-accent-600: #d81b60;
-  --color-accent-700: #c2185b;
-  --color-accent-800: #ad1457;
-  --color-accent-900: #880e4f;
+   Palette sources (Material Design 2 — https://m2.material.io/design/color/):
+   - primary → Purple 50..900  (Material resolves the prebuilt theme's primary
+     to Purple 700, so `bg-brand-700` matches the `<mat-toolbar>` hue exactly.)
+   - accent  → Green 50..900 plus Green A200 exposed as `--color-accent-highlight`
+     (Material's prebuilt accent shade is the A200 tone #69f0ae.)
+   - warn    → Red 500 / 700 (standard across all Material prebuilt themes) */
+@theme {
+  --color-brand-50: #f3e5f5;
+  --color-brand-100: #e1bee7;
+  --color-brand-200: #ce93d8;
+  --color-brand-300: #ba68c8;
+  --color-brand-400: #ab47bc;
+  --color-brand-500: #9c27b0;
+  --color-brand-600: #8e24aa;
+  --color-brand-700: #7b1fa2; /* matches <mat-toolbar color="primary"> */
+  --color-brand-800: #6a1b9a;
+  --color-brand-900: #4a148c;
+
+  --color-accent-50: #e8f5e9;
+  --color-accent-100: #c8e6c9;
+  --color-accent-200: #a5d6a7;
+  --color-accent-300: #81c784;
+  --color-accent-400: #66bb6a;
+  --color-accent-500: #4caf50;
+  --color-accent-600: #43a047;
+  --color-accent-700: #388e3c;
+  --color-accent-800: #2e7d32;
+  --color-accent-900: #1b5e20;
+  --color-accent-highlight: #69f0ae; /* Green A200 — matches `mat-*[color="accent"]` */
 
   --color-warn-500: #f44336;
   --color-warn-700: #d32f2f;
