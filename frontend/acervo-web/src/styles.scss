@@ -3,15 +3,23 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.page-container {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+/* -----------------------------------------------------------------------------
+   Angular Material 17 — form-field layout baseline
+   -----------------------------------------------------------------------------
+   Material sets `.mat-mdc-form-field { display: inline-flex; flex-direction: column;
+   min-width: 0; }` but never sets `width`. In a block-level parent (a <form> or a
+   flex column), the field sizes to content and, when the input is empty AND
+   Roboto hasn't finished loading from Google Fonts, the label width measurement
+   that drives the outlined notch briefly resolves to 0 — leaving the field
+   visually collapsed until a focus event triggers Material's ResizeObserver
+   recalculation.
 
-.action-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+   Forcing the host to `display: block; width: 100%;` makes the field occupy the
+   full parent width from the very first paint, removing the dependency on the
+   focus-time recalc and making the initial layout match the post-focus layout.
+   Consumers still opt out per-field by setting an explicit inline width/class. */
+mat-form-field.mat-mdc-form-field {
+  display: flex;          /* promote from inline-flex so it sits on its own block line */
+  flex-direction: column; /* preserve Material's internal stacking (wrapper + subscript) */
+  width: 100%;
 }

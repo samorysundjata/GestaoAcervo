@@ -1,0 +1,60 @@
+/* Tailwind CSS v4 — theme + utilities only (preflight skipped to coexist with Angular Material).
+   See: https://tailwindcss.com/docs/preflight#disabling-preflight
+
+   IMPORTANT — cascade layers are intentionally NOT used here:
+   Angular Material 17 injects its component CSS at runtime via ViewEncapsulation.None,
+   and those rules are emitted OUTSIDE any @layer. In the CSS cascade, non-layered rules
+   win over layered rules at equal specificity. Wrapping Tailwind utilities in
+   `@layer utilities` would cause `.w-full`, `.flex`, `.gap-*`, etc. to silently lose
+   against Material's MDC defaults (e.g. `.mat-mdc-form-field { display: inline-flex;
+   min-width: 0; ... }`), collapsing `<mat-form-field>` until focus triggers a reflow.
+   Keeping the imports un-layered lets utilities compete fairly by specificity + source
+   order, which is the documented Tailwind behavior for this coexistence scenario. */
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/utilities.css';
+
+/* Brand design tokens — mirror Angular Material `deeppurple-amber` prebuilt theme
+   so Tailwind utilities (bg-brand-500, text-accent-highlight, border-warn-500,
+   etc.) stay visually aligned with `mat-button color="primary|accent|warn"`.
+
+   Why `deeppurple-amber` and not `purple-green`:
+   Material 17 ships four prebuilt themes; `purple-green` and `pink-bluegrey` are
+   DARK themes (they set `--mdc-outlined-text-field-input-text-color: rgba(255,
+   255, 255, 0.87)` — invisible on a white body background), while `indigo-pink`
+   and `deeppurple-amber` are LIGHT themes suitable for the current white canvas.
+
+   Palette sources (Material Design 2 — https://m2.material.io/design/color/):
+   - primary → Deep Purple 50..900  (Material's prebuilt primary resolves to
+     Deep Purple 500, so `bg-brand-500` matches `<mat-toolbar color="primary">`.)
+   - accent  → Amber 50..900 plus Amber A200 exposed as `--color-accent-highlight`
+     (the prebuilt accent shade is the A200 tone #ffd740.)
+   - warn    → Red 500 / 700 (standard across all Material prebuilt themes) */
+@theme {
+  --color-brand-50: #ede7f6;
+  --color-brand-100: #d1c4e9;
+  --color-brand-200: #b39ddb;
+  --color-brand-300: #9575cd;
+  --color-brand-400: #7e57c2;
+  --color-brand-500: #673ab7; /* matches <mat-toolbar color="primary"> */
+  --color-brand-600: #5e35b1;
+  --color-brand-700: #512da8;
+  --color-brand-800: #4527a0;
+  --color-brand-900: #311b92;
+
+  --color-accent-50: #fff8e1;
+  --color-accent-100: #ffecb3;
+  --color-accent-200: #ffe082;
+  --color-accent-300: #ffd54f;
+  --color-accent-400: #ffca28;
+  --color-accent-500: #ffc107;
+  --color-accent-600: #ffb300;
+  --color-accent-700: #ffa000;
+  --color-accent-800: #ff8f00;
+  --color-accent-900: #ff6f00;
+  --color-accent-highlight: #ffd740; /* Amber A200 — matches `mat-*[color="accent"]` */
+
+  --color-warn-500: #f44336;
+  --color-warn-700: #d32f2f;
+
+  --font-sans: 'Roboto', 'Helvetica Neue', sans-serif;
+}

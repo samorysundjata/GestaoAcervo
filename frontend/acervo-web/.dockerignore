@@ -1,18 +1,19 @@
 # =============================================================================
 # .dockerignore — Frontend (acervo-web)
+# Must live at the build context root (frontend/acervo-web/) to take effect.
 # =============================================================================
 
-# Dependências (serão instaladas no build do container)
+# Dependencies (installed inside the build stage)
 node_modules/
 
-# Artefatos de build locais
+# Local build artifacts
 dist/
 .angular/
 
-# Configurações de ambiente locais
+# Local environment overrides
 src/environments/environment.development.ts
 
-# IDEs e ferramentas
+# IDEs / tooling
 .vscode/
 .idea/
 *.log

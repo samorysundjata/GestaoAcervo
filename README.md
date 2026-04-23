@@ -11,6 +11,7 @@
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
 ![EF Core](https://img.shields.io/badge/EF_Core-8.x-512BD4?style=flat-square)
 ![NgRx](https://img.shields.io/badge/NgRx-17-BA2BD2?style=flat-square)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38BDF8?style=flat-square&logo=tailwindcss)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)
 [![MIT License](https://img.shields.io/badge/License-MIT-teal.svg)](./LICENSE)
 
@@ -25,6 +26,7 @@
 - [Setup and Run — Backend (without Docker)](#setup-and-run--backend-without-docker)
 - [Setup and Run — Frontend (without Docker)](#setup-and-run--frontend-without-docker)
 - [Running the Tests](#running-the-tests)
+- [Styling — Angular Material + Tailwind CSS v4](#styling--angular-material--tailwind-css-v4)
 - [API Test Collections](#api-test-collections)
 - [API Documentation](#api-documentation)
 - [Repository Structure](#repository-structure)
@@ -38,7 +40,7 @@
 **Gestão Acervo** is a full-stack application for managing a bibliographic collection, composed of:
 
 - **Acervo.API** — A .NET 8 REST API (Minimal API) with route versioning, Swagger documentation, and standardized responses.
-- **acervo-web** — An Angular 17 SPA using NgRx for state management.
+- **acervo-web** — An Angular 17 SPA using NgRx for state management and a hybrid styling approach: **Angular Material** components + **Tailwind CSS v4** utility classes.
 
 ### Core Business Rules
 
@@ -90,10 +92,12 @@ The backend follows **Clean Architecture** split into four projects:
 | Tool            | Minimum version | Download                                 |
 | --------------- | --------------- | ---------------------------------------- |
 | .NET SDK        | 8.0             | https://dotnet.microsoft.com/download    |
-| Node.js         | 18.x LTS        | https://nodejs.org                       |
+| Node.js         | 20.x LTS[^node] | https://nodejs.org                       |
 | Angular CLI     | 17.x            | `npm install -g @angular/cli`            |
 | SQL Server 2022 | 2022            | https://www.microsoft.com/sql-server     |
 | EF Core CLI     | 8.x             | `dotnet tool install --global dotnet-ef` |
+
+[^node]: Angular 17 officially supports Node 18.13+ and 20.9+. Node **20** is required for the Docker build because `npm 9` (bundled with Node 18) does not correctly resolve `libc: musl` in optional dependencies on Alpine, breaking Tailwind v4's Oxide native binding. Outside Docker, Node 18.13+ works fine for `ng serve`.
 
 ---
 
@@ -236,6 +240,36 @@ ng test --watch=false
 # Watch mode (development)
 ng test
 ```
+
+---
+
+## Styling — Angular Material + Tailwind CSS v4
+
+The frontend uses a **hybrid styling strategy**:
+
+- **Angular Material 17** — UI components (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs, etc.) and the `deeppurple-amber` prebuilt theme (light).
+- **Tailwind CSS v4** — utility classes for layout, spacing, flex/grid, and responsive breakpoints.
+
+Tailwind v4 and Material coexist because Tailwind's Preflight is skipped (it would otherwise override Material's resets), and design tokens (`@theme`) mirror the Material palette so both engines stay visually aligned.
+
+### Setup at a glance
+
+| File                  | Purpose                                                         |
+| --------------------- | --------------------------------------------------------------- |
+| `src/tailwind.css`    | Tailwind imports (`theme` + `utilities`) and `@theme` tokens    |
+| `src/styles.scss`     | Angular Material setup + global `html`/`body` rules only        |
+| `.postcssrc.json`     | Registers the `@tailwindcss/postcss` plugin for Angular CLI     |
+| `angular.json`        | Lists `src/tailwind.css` in `architect.build.options.styles[]`  |
+| `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` as devDeps     |
+
+### Installation (already applied)
+
+```bash
+cd frontend/acervo-web
+npm install -D tailwindcss @tailwindcss/postcss postcss --legacy-peer-deps
+```
+
+> `--legacy-peer-deps` is required because Angular 17's `@angular-devkit/build-angular` declares a soft `peerOptional` on Tailwind v2/v3. PostCSS integration is unaffected at runtime.
 
 ---
 
