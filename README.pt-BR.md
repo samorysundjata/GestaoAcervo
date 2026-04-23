@@ -92,10 +92,12 @@ O backend segue **Clean Architecture** dividida em quatro projetos:
 | Ferramenta      | Versão mínima | Download                                 |
 | --------------- | ------------- | ---------------------------------------- |
 | .NET SDK        | 8.0           | https://dotnet.microsoft.com/download    |
-| Node.js         | 18.x LTS      | https://nodejs.org                       |
+| Node.js         | 20.x LTS[^node] | https://nodejs.org                       |
 | Angular CLI     | 17.x          | `npm install -g @angular/cli`            |
 | SQL Server 2022 | 2022          | https://www.microsoft.com/sql-server     |
 | EF Core CLI     | 8.x           | `dotnet tool install --global dotnet-ef` |
+
+[^node]: O Angular 17 suporta oficialmente Node 18.13+ e 20.9+. O Node **20** é obrigatório para o build Docker porque o `npm 9` (que vem com Node 18) não resolve corretamente `libc: musl` em dependências opcionais no Alpine, quebrando o binário nativo do Oxide (Tailwind v4). Fora do Docker, Node 18.13+ funciona normalmente para `ng serve`.
 
 ---
 
