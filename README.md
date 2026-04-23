@@ -27,6 +27,7 @@
 - [Setup and Run — Frontend (without Docker)](#setup-and-run--frontend-without-docker)
 - [Running the Tests](#running-the-tests)
 - [Styling — Angular Material + Tailwind CSS v4](#styling--angular-material--tailwind-css-v4)
+- [Design System](./docs/design-system.md)
 - [API Test Collections](#api-test-collections)
 - [API Documentation](#api-documentation)
 - [Repository Structure](#repository-structure)
@@ -250,29 +251,17 @@ The frontend uses a **hybrid styling strategy**:
 - **Angular Material 17** — UI components (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs, etc.) and the `purple-green` prebuilt theme.
 - **Tailwind CSS v4** — utility classes for layout, spacing, flex/grid, and responsive breakpoints.
 
-### Why this hybrid approach?
+Tailwind v4 and Material coexist because Tailwind's Preflight is skipped (it would otherwise override Material's resets), and design tokens (`@theme`) mirror the Material palette so both engines stay visually aligned.
 
-Tailwind v4 and Angular Material can coexist safely **as long as Tailwind's Preflight (base reset) is skipped** — otherwise it would override Material's own resets and break component styling. Tailwind imports live in a **pure CSS file** (separate from the SCSS entry) because Tailwind v4's CSS-first directives (`@theme`, layered imports) are interpreted by the PostCSS plugin, and SCSS preprocessing can interfere with them:
+> **Design System:** The canonical reference for colors, typography, spacing, component decisions, and accessibility is the **[Design System document](./docs/design-system.md)** ([pt-BR](./docs/design-system.pt-BR.md)). Consult it before adding new colors, screens, or components.
 
-```css
-/* frontend/acervo-web/src/tailwind.css */
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
-
-@theme {
-  --color-brand-500: #9c27b0; /* Material Purple 500 — matches the `purple-green` prebuilt theme */
-}
-```
-
-### Setup reference
-
-The project follows Tailwind **v4** conventions (no `tailwind.config.js`, no `@tailwind` directives):
+### Setup at a glance
 
 | File                  | Purpose                                                         |
 | --------------------- | --------------------------------------------------------------- |
-| `.postcssrc.json`     | Registers the `@tailwindcss/postcss` plugin for Angular CLI     |
 | `src/tailwind.css`    | Tailwind imports (`theme` + `utilities`) and `@theme` tokens    |
 | `src/styles.scss`     | Angular Material setup + global `html`/`body` rules only        |
+| `.postcssrc.json`     | Registers the `@tailwindcss/postcss` plugin for Angular CLI     |
 | `angular.json`        | Lists `src/tailwind.css` in `architect.build.options.styles[]`  |
 | `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` as devDeps     |
 
@@ -283,27 +272,7 @@ cd frontend/acervo-web
 npm install -D tailwindcss @tailwindcss/postcss postcss --legacy-peer-deps
 ```
 
-> `--legacy-peer-deps` is required because Angular 17's `@angular-devkit/build-angular` declares a soft `peerOptional` on Tailwind v2/v3. This is harmless: PostCSS integration works independently of that hint.
-
-### Usage guidelines
-
-- Use **Material components** for interactive UI (forms, tables, dialogs, menus, buttons with elevation).
-- Use **Tailwind utilities** for layout, spacing, responsive breakpoints, and one-off visual tweaks — avoid writing new custom CSS when a utility exists.
-- When customizing a Material component's container, prefer Tailwind utilities on the wrapper over deep Material theme overrides.
-
-### Customizing the Tailwind theme (v4 way)
-
-Theme tokens live directly in CSS via `@theme` — always add them to `src/tailwind.css`, never to `styles.scss` (SCSS preprocessing strips Tailwind v4 directives). Example:
-
-```css
-/* src/tailwind.css */
-@theme {
-  --color-brand-500: #9c27b0;
-  --font-sans: "Roboto", "Helvetica Neue", sans-serif;
-}
-```
-
-These tokens generate utilities automatically (e.g., `bg-brand-500`, `text-brand-500`). Note: Tailwind v4 tree-shakes unused tokens — a token only lands in the output `styles.css` when an actual utility references it.
+> `--legacy-peer-deps` is required because Angular 17's `@angular-devkit/build-angular` declares a soft `peerOptional` on Tailwind v2/v3. PostCSS integration is unaffected at runtime.
 
 ---
 

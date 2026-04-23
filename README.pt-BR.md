@@ -27,6 +27,7 @@
 - [Configuração e Execução — Frontend (sem Docker)](#configuração-e-execução--frontend-sem-docker)
 - [Executando os Testes](#executando-os-testes)
 - [Estilização — Angular Material + Tailwind CSS v4](#estilização--angular-material--tailwind-css-v4)
+- [Design System](./docs/design-system.pt-BR.md)
 - [Collections](#collections-para-teste-de-api)
 - [Documentação da API](#documentação-da-api)
 - [Estrutura do Repositório](#estrutura-do-repositório)
@@ -250,29 +251,17 @@ O frontend utiliza uma **estratégia híbrida de estilização**:
 - **Angular Material 17** — componentes de UI (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs etc.) e o tema pré-construído `purple-green`.
 - **Tailwind CSS v4** — classes utilitárias para layout, espaçamento, flex/grid e breakpoints responsivos.
 
-### Por que essa abordagem híbrida?
+Tailwind v4 e Material coexistem porque o Preflight do Tailwind é desativado (ele sobrescreveria os resets do Material) e os design tokens (`@theme`) espelham a paleta Material, mantendo os dois motores visualmente alinhados.
 
-Tailwind v4 e Angular Material coexistem com segurança **desde que o Preflight do Tailwind (reset base) seja desativado** — caso contrário, ele sobrescreveria os resets do próprio Material e quebraria a estilização dos componentes. Os imports do Tailwind ficam em um **arquivo CSS puro** (separado do SCSS) porque as diretivas CSS-first do Tailwind v4 (`@theme`, layered imports) são interpretadas pelo plugin PostCSS, e o preprocessamento SCSS pode interferir nelas:
+> **Design System:** A referência canônica para cores, tipografia, espaçamento, decisões de componente e acessibilidade é o **[documento do Design System](./docs/design-system.pt-BR.md)** ([English](./docs/design-system.md)). Consulte-o antes de adicionar novas cores, telas ou componentes.
 
-```css
-/* frontend/acervo-web/src/tailwind.css */
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
-
-@theme {
-  --color-brand-500: #9c27b0; /* Material Purple 500 — alinhado ao prebuilt `purple-green` */
-}
-```
-
-### Arquivos de configuração
-
-O projeto segue as convenções do **Tailwind v4** (sem `tailwind.config.js`, sem diretivas `@tailwind`):
+### Configuração resumida
 
 | Arquivo               | Finalidade                                                          |
 | --------------------- | ------------------------------------------------------------------- |
-| `.postcssrc.json`     | Registra o plugin `@tailwindcss/postcss` para o Angular CLI         |
 | `src/tailwind.css`    | Imports do Tailwind (`theme` + `utilities`) e tokens `@theme`       |
 | `src/styles.scss`     | Setup do Angular Material e regras globais `html`/`body`            |
+| `.postcssrc.json`     | Registra o plugin `@tailwindcss/postcss` para o Angular CLI         |
 | `angular.json`        | Declara `src/tailwind.css` em `architect.build.options.styles[]`    |
 | `package.json`        | `tailwindcss`, `@tailwindcss/postcss`, `postcss` como devDeps       |
 
@@ -283,27 +272,7 @@ cd frontend/acervo-web
 npm install -D tailwindcss @tailwindcss/postcss postcss --legacy-peer-deps
 ```
 
-> A flag `--legacy-peer-deps` é necessária porque o `@angular-devkit/build-angular` do Angular 17 declara um `peerOptional` em Tailwind v2/v3. Isso é inofensivo: a integração via PostCSS funciona independentemente dessa pista.
-
-### Diretrizes de uso
-
-- Use **componentes do Material** para UI interativa (formulários, tabelas, dialogs, menus, botões com elevação).
-- Use **utilitários do Tailwind** para layout, espaçamento, breakpoints responsivos e ajustes visuais pontuais — evite escrever CSS customizado quando existir um utilitário.
-- Ao customizar o container de um componente Material, prefira utilitários do Tailwind no wrapper em vez de overrides profundos no tema do Material.
-
-### Customizando o tema do Tailwind (forma v4)
-
-Tokens de tema ficam diretamente no CSS via `@theme` — sempre adicione-os em `src/tailwind.css`, nunca em `styles.scss` (o preprocessamento SCSS remove as diretivas do Tailwind v4). Exemplo:
-
-```css
-/* src/tailwind.css */
-@theme {
-  --color-brand-500: #9c27b0;
-  --font-sans: "Roboto", "Helvetica Neue", sans-serif;
-}
-```
-
-Esses tokens geram utilitários automaticamente (ex.: `bg-brand-500`, `text-brand-500`). Nota: o Tailwind v4 faz tree-shaking de tokens não utilizados — um token só entra no `styles.css` final quando algum utilitário de fato o referencia.
+> A flag `--legacy-peer-deps` é necessária porque o `@angular-devkit/build-angular` do Angular 17 declara um `peerOptional` em Tailwind v2/v3. A integração via PostCSS não é afetada em runtime.
 
 ---
 
