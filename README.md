@@ -27,7 +27,6 @@
 - [Setup and Run — Frontend (without Docker)](#setup-and-run--frontend-without-docker)
 - [Running the Tests](#running-the-tests)
 - [Styling — Angular Material + Tailwind CSS v4](#styling--angular-material--tailwind-css-v4)
-- [Design System](./docs/design-system.md)
 - [API Test Collections](#api-test-collections)
 - [API Documentation](#api-documentation)
 - [Repository Structure](#repository-structure)
@@ -248,12 +247,10 @@ ng test
 
 The frontend uses a **hybrid styling strategy**:
 
-- **Angular Material 17** — UI components (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs, etc.) and the `purple-green` prebuilt theme.
+- **Angular Material 17** — UI components (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs, etc.) and the `deeppurple-amber` prebuilt theme (light).
 - **Tailwind CSS v4** — utility classes for layout, spacing, flex/grid, and responsive breakpoints.
 
 Tailwind v4 and Material coexist because Tailwind's Preflight is skipped (it would otherwise override Material's resets), and design tokens (`@theme`) mirror the Material palette so both engines stay visually aligned.
-
-> **Design System:** The canonical reference for colors, typography, spacing, component decisions, and accessibility is the **[Design System document](./docs/design-system.md)** ([pt-BR](./docs/design-system.pt-BR.md)). Consult it before adding new colors, screens, or components.
 
 ### Setup at a glance
 

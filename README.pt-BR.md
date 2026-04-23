@@ -27,7 +27,6 @@
 - [Configuração e Execução — Frontend (sem Docker)](#configuração-e-execução--frontend-sem-docker)
 - [Executando os Testes](#executando-os-testes)
 - [Estilização — Angular Material + Tailwind CSS v4](#estilização--angular-material--tailwind-css-v4)
-- [Design System](./docs/design-system.pt-BR.md)
 - [Collections](#collections-para-teste-de-api)
 - [Documentação da API](#documentação-da-api)
 - [Estrutura do Repositório](#estrutura-do-repositório)
@@ -248,12 +247,10 @@ ng test
 
 O frontend utiliza uma **estratégia híbrida de estilização**:
 
-- **Angular Material 17** — componentes de UI (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs etc.) e o tema pré-construído `purple-green`.
+- **Angular Material 17** — componentes de UI (`mat-toolbar`, `mat-table`, `mat-form-field`, dialogs etc.) e o tema pré-construído `deeppurple-amber` (claro).
 - **Tailwind CSS v4** — classes utilitárias para layout, espaçamento, flex/grid e breakpoints responsivos.
 
 Tailwind v4 e Material coexistem porque o Preflight do Tailwind é desativado (ele sobrescreveria os resets do Material) e os design tokens (`@theme`) espelham a paleta Material, mantendo os dois motores visualmente alinhados.
-
-> **Design System:** A referência canônica para cores, tipografia, espaçamento, decisões de componente e acessibilidade é o **[documento do Design System](./docs/design-system.pt-BR.md)** ([English](./docs/design-system.md)). Consulte-o antes de adicionar novas cores, telas ou componentes.
 
 ### Configuração resumida
 
