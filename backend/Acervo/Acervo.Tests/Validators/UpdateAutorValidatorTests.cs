@@ -1,17 +1,17 @@
-﻿using Acervo.Application.DTOs.Autor;
+using Acervo.Application.DTOs.Autor;
 using Acervo.Application.Validators;
 using FluentValidation.TestHelper;
 
 namespace Acervo.Tests.Validators;
 
-public class CreateAutorValidatorTests
+public class UpdateAutorValidatorTests
 {
-    private readonly CreateAutorValidator _validator = new();
+    private readonly UpdateAutorValidator _validator = new();
 
     [Fact]
     public void NomeVazio_DeveRetornarErro()
     {
-        var dto = new CreateAutorDto("", "autor@dominio.com");
+        var dto = new UpdateAutorDto("", "autor@dominio.com");
         var result = _validator.TestValidate(dto);
         result.ShouldHaveValidationErrorFor(x => x.Nome);
     }
@@ -19,7 +19,7 @@ public class CreateAutorValidatorTests
     [Fact]
     public void NomeMuitoLongo_DeveRetornarErro()
     {
-        var dto = new CreateAutorDto(new string('a', 151), "autor@dominio.com");
+        var dto = new UpdateAutorDto(new string('a', 151), "autor@dominio.com");
         var result = _validator.TestValidate(dto);
         result.ShouldHaveValidationErrorFor(x => x.Nome);
     }
@@ -27,7 +27,7 @@ public class CreateAutorValidatorTests
     [Fact]
     public void EmailVazio_DeveRetornarErro()
     {
-        var dto = new CreateAutorDto("Autor", "");
+        var dto = new UpdateAutorDto("Autor", "");
         var result = _validator.TestValidate(dto);
         result.ShouldHaveValidationErrorFor(x => x.Email);
     }
@@ -35,7 +35,7 @@ public class CreateAutorValidatorTests
     [Fact]
     public void EmailInvalido_DeveRetornarErro()
     {
-        var dto = new CreateAutorDto("Autor", "email-invalido");
+        var dto = new UpdateAutorDto("Autor", "email-invalido");
         var result = _validator.TestValidate(dto);
         result.ShouldHaveValidationErrorFor(x => x.Email);
     }
@@ -43,7 +43,7 @@ public class CreateAutorValidatorTests
     [Fact]
     public void EmailMuitoLongo_DeveRetornarErro()
     {
-        var dto = new CreateAutorDto("Autor", new string('a', 191) + "@teste.com");
+        var dto = new UpdateAutorDto("Autor", new string('a', 191) + "@teste.com");
         var result = _validator.TestValidate(dto);
         result.ShouldHaveValidationErrorFor(x => x.Email);
     }
@@ -51,7 +51,7 @@ public class CreateAutorValidatorTests
     [Fact]
     public void DadosValidos_NaoDeveRetornarErro()
     {
-        var dto = new CreateAutorDto("Autor", "autor@dominio.com");
+        var dto = new UpdateAutorDto("Autor", "autor@dominio.com");
         var result = _validator.TestValidate(dto);
         result.ShouldNotHaveAnyValidationErrors();
     }
