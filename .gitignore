@@ -4,6 +4,7 @@
 *.local
 
 # Requirements & Docs
+.agents/
 docs/specs/
 # .docs/requs/
 
