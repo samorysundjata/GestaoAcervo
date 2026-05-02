@@ -4,7 +4,7 @@
 *.local
 
 # Requirements & Docs
-.agents/
+.agents/skills
 docs/specs/
 # .docs/requs/
 
