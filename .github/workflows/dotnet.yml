@@ -33,4 +33,4 @@ jobs:
       run: dotnet build Acervo.slnx --no-restore --configuration Release
 
     - name: Test
-      run: dotnet test Acervo.slnx --no-build --configuration Release --verbosity normal
+      run: dotnet test Acervo.slnx --no-build --configuration Release --collect:"XPlat Code Coverage" --verbosity normal

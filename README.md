@@ -220,10 +220,12 @@ Available at `http://localhost:4200`
 
 ## Running the Tests
 
-### Backend (xUnit + Moq)
+### Backend (xUnit + Moq + Testcontainers)
+
+Integration tests start a throwaway **SQL Server 2022** container. Docker Desktop must be running (Linux containers).
 
 ```bash
-# From the solution root
+# From backend/Acervo
 dotnet test
 
 # With coverage report
