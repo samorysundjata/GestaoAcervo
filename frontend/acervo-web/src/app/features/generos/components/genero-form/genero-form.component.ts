@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +21,7 @@ export class GeneroFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, private store: Store,
-    private router: Router, private route: ActivatedRoute, private svc: GeneroService
+    private route: ActivatedRoute, private svc: GeneroService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +41,5 @@ export class GeneroFormComponent implements OnInit {
     } else {
       this.store.dispatch(GenerosActions.createGenero({ dto: val }));
     }
-    this.router.navigate(['/generos']);
   }
 }

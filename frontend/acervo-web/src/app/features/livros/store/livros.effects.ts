@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, mergeMap, tap } from "rxjs/operators";
 import { of } from "rxjs";
@@ -42,7 +43,10 @@ export class LivrosEffects {
     () =>
       this.actions$.pipe(
         ofType(LivrosActions.createLivroSuccess),
-        tap(() => this.notification.success("Livro criado com sucesso!")),
+        tap(() => {
+          this.notification.success("Livro criado com sucesso!");
+          this.router.navigate(["/livros"]);
+        }),
       ),
     { dispatch: false },
   );
@@ -65,7 +69,10 @@ export class LivrosEffects {
     () =>
       this.actions$.pipe(
         ofType(LivrosActions.updateLivroSuccess),
-        tap(() => this.notification.success("Livro atualizado com sucesso!")),
+        tap(() => {
+          this.notification.success("Livro atualizado com sucesso!");
+          this.router.navigate(["/livros"]);
+        }),
       ),
     { dispatch: false },
   );
@@ -97,5 +104,6 @@ export class LivrosEffects {
     private actions$: Actions,
     private svc: LivroService,
     private notification: NotificationService,
+    private router: Router,
   ) {}
 }

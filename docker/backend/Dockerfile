@@ -31,8 +31,9 @@ RUN dotnet publish "Acervo.API.csproj" \
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
-# Cria usuário não-root para segurança
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+# Non-root user. The Ubuntu 24.04 aspnet image has groupadd/useradd, not addgroup/adduser.
+RUN groupadd --system appgroup \
+    && useradd --system --gid appgroup --home-dir /app --no-create-home appuser
 USER appuser
 
 # Copia apenas os artefatos publicados

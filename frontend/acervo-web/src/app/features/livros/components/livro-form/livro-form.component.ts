@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -33,8 +33,9 @@ export class LivroFormComponent implements OnInit {
   generos: GeneroViewModel[] = [];
 
   constructor(
-    private fb: FormBuilder, private store: Store,
-    private router: Router, private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private store: Store,
+    private route: ActivatedRoute,
     private svc: LivroService,
     private autorSvc: AutorService,
     private generoSvc: GeneroService
@@ -59,6 +60,5 @@ export class LivroFormComponent implements OnInit {
     } else {
       this.store.dispatch(LivrosActions.createLivro({ dto: val }));
     }
-    this.router.navigate(['/livros']);
   }
 }

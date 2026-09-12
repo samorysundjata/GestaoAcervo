@@ -1,0 +1,49 @@
+@startuml Coverage
+' Test coverage map — Gestão Acervo
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam packageBorderColor #64748b
+skinparam defaultFontName Inter
+skinparam defaultFontSize 13
+
+title Gestão Acervo — mapa de cobertura de testes
+
+package "Backend .NET 10  |  95,6% linhas  (505/528)  |  94 testes" as BE #F8FAFC {
+  together {
+    rectangle "**Domain**\n100%  ·  9 unitários" as D #BBF7D0
+    rectangle "**Application**\n100%  ·  76 unitários" as APP #BBF7D0
+    rectangle "**Infrastructure**\n93%  ·  repositórios / EF" as INF #FDE68A
+    rectangle "**API**\n90%  ·  9 integração" as API #FDE68A
+  }
+}
+
+package "Frontend Angular 17  |  100% statements*  (300/300)  |  107 specs" as FE #F8FAFC {
+  together {
+    rectangle "**HTTP + interceptor**\nservices, erros, snackbar" as HTTP #BBF7D0
+    rectangle "**NgRx**\nreducers, effects, selectors" as NGRX #BBF7D0
+    rectangle "**UI**\nlistas, forms, confirm-dialog" as UI #BBF7D0
+    rectangle "**Fora do Karma**\ncards, navbar, rotas, AppComponent" as GAP #E5E7EB
+  }
+}
+
+package "E2E Playwright  |  3 fluxos  |  SPA + API" as E2E #F8FAFC {
+  rectangle "Listar livros" as F1 #BFDBFE
+  rectangle "CRUD de gênero" as F2 #BFDBFE
+  rectangle "Autor + livro\nexclusão 422" as F3 #BFDBFE
+}
+
+HTTP -down-> NGRX
+NGRX -down-> UI
+F1 -right-> F2
+F2 -right-> F3
+
+legend right
+  |= Cor |= Faixa |
+  | <#BBF7D0> | ≥ 95% / coberto |
+  | <#FDE68A> | 80–94% |
+  | <#BFDBFE> | fluxo E2E (sem % de linha) |
+  | <#E5E7EB> | ainda não instrumentado |
+  |  *Karma só conta arquivos importados pelos specs. |
+endlegend
+
+@enduml

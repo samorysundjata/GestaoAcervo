@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,7 +12,7 @@ import { AutorService } from '../../services/autor.service';
 @Component({
   selector: 'app-autor-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink],
   templateUrl: './autor-form.component.html'
 })
 export class AutorFormComponent implements OnInit {
@@ -25,7 +25,6 @@ export class AutorFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private router: Router,
     private route: ActivatedRoute,
     private svc: AutorService
   ) {}
@@ -47,6 +46,5 @@ export class AutorFormComponent implements OnInit {
     } else {
       this.store.dispatch(AutoresActions.createAutor({ dto: val }));
     }
-    this.router.navigate(['/autores']);
   }
 }
