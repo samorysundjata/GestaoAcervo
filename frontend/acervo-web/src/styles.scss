@@ -4,21 +4,38 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* -----------------------------------------------------------------------------
-   Angular Material 17 — form-field layout baseline
+   Angular Material 17 — form-field layout baseline (scoped)
    -----------------------------------------------------------------------------
+   Problem this rule solves.
    Material sets `.mat-mdc-form-field { display: inline-flex; flex-direction: column;
-   min-width: 0; }` but never sets `width`. In a block-level parent (a <form> or a
-   flex column), the field sizes to content and, when the input is empty AND
-   Roboto hasn't finished loading from Google Fonts, the label width measurement
-   that drives the outlined notch briefly resolves to 0 — leaving the field
-   visually collapsed until a focus event triggers Material's ResizeObserver
-   recalculation.
+   min-width: 0; }` but never sets `width`. In a block-level parent, the field
+   sizes to content and, when the input is empty AND Roboto hasn't finished
+   loading from Google Fonts, the label width measurement that drives the
+   outlined notch briefly resolves to 0 — leaving the field visually collapsed
+   until a focus event triggers Material's ResizeObserver recalculation.
 
-   Forcing the host to `display: block; width: 100%;` makes the field occupy the
-   full parent width from the very first paint, removing the dependency on the
-   focus-time recalc and making the initial layout match the post-focus layout.
-   Consumers still opt out per-field by setting an explicit inline width/class. */
-mat-form-field.mat-mdc-form-field {
+   Why this rule is SCOPED (not global).
+   An earlier iteration applied `display: flex; width: 100%;` to *every*
+   `<mat-form-field>` in the app. That works for forms but breaks inline
+   layouts (toolbars, filter bars) where multiple fields should sit
+   side-by-side. Two escape hatches exist:
+
+     1. Any `<mat-form-field>` inside a `<form>` element gets the full-width
+        block treatment automatically. Forms are overwhelmingly the place where
+        collapsed-until-focus is visible and where full-width is the intended
+        layout. This is a defensive fallback for consumers who forget to add
+        `class="w-full"` on the template.
+     2. Anywhere else, apply `.mat-form-field-block` explicitly on the element
+        to opt in to the same behavior. Fields without the class and outside
+        `<form>` keep Material's default (`inline-flex`, sized to content),
+        letting them sit inline in toolbars/filter bars.
+
+   Consumers of the current forms (`autor-form`, `genero-form`, `livro-form`)
+   already declare `class="w-full"` in the template — that remains the
+   recommended pattern (intent is visible in the HTML). This CSS is a safety
+   net, not a substitute for the utility class. */
+form mat-form-field.mat-mdc-form-field,
+mat-form-field.mat-mdc-form-field.mat-form-field-block {
   display: flex;          /* promote from inline-flex so it sits on its own block line */
   flex-direction: column; /* preserve Material's internal stacking (wrapper + subscript) */
   width: 100%;
