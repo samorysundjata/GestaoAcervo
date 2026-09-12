@@ -3,13 +3,14 @@ using Acervo.Application;
 using Acervo.Infrastructure;
 using Acervo.Infrastructure.Data;
 using FluentValidation.AspNetCore;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "Acervo API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Acervo API", Version = "v1" });
 });
 
 builder.Services.AddCors(options =>

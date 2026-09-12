@@ -8,7 +8,7 @@ public static class LivroEndpoints
 {
     public static void MapLivroEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/v1/livros").WithTags("Livros").WithOpenApi();
+        var group = app.MapGroup("/api/v1/livros").WithTags("Livros");
 
         group.MapGet("/", async (ILivroService svc) =>
         {

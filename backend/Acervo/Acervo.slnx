@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Acervo.API/Acervo.API.csproj" />
+  <Project Path="Acervo.Application/Acervo.Application.csproj" />
+  <Project Path="Acervo.Domain.Tests/Acervo.Domain.Tests.csproj" />
+  <Project Path="Acervo.Domain/Acervo.Domain.csproj" />
+  <Project Path="Acervo.Infrastructure/Acervo.Infrastructure.csproj" />
+  <Project Path="Acervo.Tests/Acervo.Tests.csproj" />
+</Solution>

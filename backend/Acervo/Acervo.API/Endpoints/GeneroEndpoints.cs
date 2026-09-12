@@ -8,7 +8,7 @@ public static class GeneroEndpoints
 {
     public static void MapGeneroEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/v1/generos").WithTags("Gêneros").WithOpenApi();
+        var group = app.MapGroup("/api/v1/generos").WithTags("Gêneros");
 
         group.MapGet("/", async (IGeneroService svc) =>
         {

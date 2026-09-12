@@ -1,22 +1,24 @@
 # =============================================================================
 # .dockerignore — Backend (Acervo.API)
+# Must live next to the compose build context (backend/Acervo/), not only
+# next to the Dockerfile. Docker only reads .dockerignore from the context root.
 # =============================================================================
 
-# Host SDK pin — the container uses the image SDK, not global.json
+# Host SDK pin — image SDK comes from mcr.microsoft.com/dotnet/sdk:10.0
 global.json
 
-# Diretórios de build locais
+# Local build output
 **/bin/
 **/obj/
 
-# Testes (não incluídos na imagem de produção)
+# Tests (not part of the production image)
 **/*.Tests/
 
-# Configurações locais sensíveis
+# Local secrets / machine config
 **/appsettings.Development.json
 **/.env
 
-# Ferramentas e IDEs
+# IDE
 **/.vs/
 **/.vscode/
 **/.idea/

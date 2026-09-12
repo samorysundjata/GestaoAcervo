@@ -19,10 +19,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        global-json-file: ./backend/Acervo/global.json
     - name: Restore dependencies
-      run: dotnet restore
+      working-directory: ./backend/Acervo
+      run: dotnet restore Acervo.slnx
     - name: Build
-      run: dotnet build --no-restore
+      working-directory: ./backend/Acervo
+      run: dotnet build Acervo.slnx --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      working-directory: ./backend/Acervo
+      run: dotnet test Acervo.slnx --no-build --verbosity normal

@@ -1,10 +1,14 @@
 # =============================================================================
 # Stage 1: Build
 # =============================================================================
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copia os arquivos de projeto para restaurar dependências (cache de layers)
+# Do NOT copy global.json here. It pins a host SDK (e.g. 10.0.401) that often
+# has no matching MCR tag; restore would fail with "SDK specified in
+# global.json was not found". The image tag supplies the SDK. global.json is
+# also listed in the build-context .dockerignore so `COPY . .` cannot sneak it
+# back in.
 COPY ["Acervo.API/Acervo.API.csproj",             "Acervo.API/"]
 COPY ["Acervo.Application/Acervo.Application.csproj", "Acervo.Application/"]
 COPY ["Acervo.Infrastructure/Acervo.Infrastructure.csproj", "Acervo.Infrastructure/"]
@@ -24,7 +28,7 @@ RUN dotnet publish "Acervo.API.csproj" \
 # =============================================================================
 # Stage 2: Runtime
 # =============================================================================
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
 # Cria usuário não-root para segurança
