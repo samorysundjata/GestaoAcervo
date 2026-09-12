@@ -6,10 +6,10 @@
 
 ---
 
-![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet)
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)
 ![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
-![EF Core](https://img.shields.io/badge/EF_Core-8.x-512BD4?style=flat-square)
+![EF Core](https://img.shields.io/badge/EF_Core-10.x-512BD4?style=flat-square)
 ![NgRx](https://img.shields.io/badge/NgRx-17-BA2BD2?style=flat-square)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38BDF8?style=flat-square&logo=tailwindcss)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)
@@ -39,7 +39,7 @@
 
 O **Gestão Acervo** é uma aplicação full-stack para gerenciamento de acervo bibliográfico, composta por:
 
-- **Acervo.API** — API REST em .NET 8 (Minimal API) com versionamento de rotas, documentação Swagger e respostas padronizadas.
+- **Acervo.API** — API REST em .NET 10 (Minimal API) com versionamento de rotas, documentação Swagger e respostas padronizadas.
 - **acervo-web** — SPA em Angular 17 com NgRx para gerenciamento de estado e abordagem híbrida de estilização: componentes **Angular Material** + utilitários **Tailwind CSS v4**.
 
 ### Regras de Negócio Principais
@@ -56,7 +56,7 @@ O **Gestão Acervo** é uma aplicação full-stack para gerenciamento de acervo 
 ```
 acervo-web  (Angular 17 + NgRx)
         │  HTTP/REST
-Acervo.API  (.NET 8 Minimal API)
+Acervo.API  (.NET 10 Minimal API)
         │  EF Core
    SQL Server 2022
 ```
@@ -91,11 +91,11 @@ O backend segue **Clean Architecture** dividida em quatro projetos:
 
 | Ferramenta      | Versão mínima | Download                                 |
 | --------------- | ------------- | ---------------------------------------- |
-| .NET SDK        | 8.0           | https://dotnet.microsoft.com/download    |
+| .NET SDK        | 10.0.401      | https://dotnet.microsoft.com/download    |
 | Node.js         | 20.x LTS[^node] | https://nodejs.org                       |
 | Angular CLI     | 17.x          | `npm install -g @angular/cli`            |
 | SQL Server 2022 | 2022          | https://www.microsoft.com/sql-server     |
-| EF Core CLI     | 8.x           | `dotnet tool install --global dotnet-ef` |
+| EF Core CLI     | 10.x          | `dotnet tool install --global dotnet-ef` |
 
 [^node]: O Angular 17 suporta oficialmente Node 18.13+ e 20.9+. O Node **20** é obrigatório para o build Docker porque o `npm 9` (que vem com Node 18) não resolve corretamente `libc: musl` em dependências opcionais no Alpine, quebrando o binário nativo do Oxide (Tailwind v4). Fora do Docker, Node 18.13+ funciona normalmente para `ng serve`.
 
@@ -363,7 +363,7 @@ gestaoacervo/
 │       └── entrypoint.sh        → Script de inicialização do container
 │
 ├── backend/
-│   └── Acervo/                  → Solution .NET 8
+│   └── Acervo/                  → Solution .NET 10 (Acervo.slnx)
 ├── frontend/
 │   └── acervo-web/              → SPA Angular 17
 ```

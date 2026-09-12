@@ -6,10 +6,10 @@
 
 ---
 
-![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet)
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)
 ![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
-![EF Core](https://img.shields.io/badge/EF_Core-8.x-512BD4?style=flat-square)
+![EF Core](https://img.shields.io/badge/EF_Core-10.x-512BD4?style=flat-square)
 ![NgRx](https://img.shields.io/badge/NgRx-17-BA2BD2?style=flat-square)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38BDF8?style=flat-square&logo=tailwindcss)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)
@@ -39,7 +39,7 @@
 
 **Gestão Acervo** is a full-stack application for managing a bibliographic collection, composed of:
 
-- **Acervo.API** — A .NET 8 REST API (Minimal API) with route versioning, Swagger documentation, and standardized responses.
+- **Acervo.API** — A .NET 10 REST API (Minimal API) with route versioning, Swagger documentation, and standardized responses.
 - **acervo-web** — An Angular 17 SPA using NgRx for state management and a hybrid styling approach: **Angular Material** components + **Tailwind CSS v4** utility classes.
 
 ### Core Business Rules
@@ -56,7 +56,7 @@
 ```
 acervo-web  (Angular 17 + NgRx)
         │  HTTP/REST
-Acervo.API  (.NET 8 Minimal API)
+Acervo.API  (.NET 10 Minimal API)
         │  EF Core
    SQL Server 2022
 ```
@@ -91,11 +91,11 @@ The backend follows **Clean Architecture** split into four projects:
 
 | Tool            | Minimum version | Download                                 |
 | --------------- | --------------- | ---------------------------------------- |
-| .NET SDK        | 8.0             | https://dotnet.microsoft.com/download    |
+| .NET SDK        | 10.0.401        | https://dotnet.microsoft.com/download    |
 | Node.js         | 20.x LTS[^node] | https://nodejs.org                       |
 | Angular CLI     | 17.x            | `npm install -g @angular/cli`            |
 | SQL Server 2022 | 2022            | https://www.microsoft.com/sql-server     |
-| EF Core CLI     | 8.x             | `dotnet tool install --global dotnet-ef` |
+| EF Core CLI     | 10.x            | `dotnet tool install --global dotnet-ef` |
 
 [^node]: Angular 17 officially supports Node 18.13+ and 20.9+. Node **20** is required for the Docker build because `npm 9` (bundled with Node 18) does not correctly resolve `libc: musl` in optional dependencies on Alpine, breaking Tailwind v4's Oxide native binding. Outside Docker, Node 18.13+ works fine for `ng serve`.
 
@@ -365,7 +365,7 @@ gestaoacervo/
 │       └── entrypoint.sh        → Container startup script
 │
 ├── backend/
-│   └── Acervo/                  → .NET 8 Solution
+│   └── Acervo/                  → .NET 10 Solution (Acervo.slnx)
 ├── frontend/
 │   └── acervo-web/              → Angular 17 SPA
 ```

@@ -8,7 +8,7 @@ public static class AutorEndpoints
 {
     public static void MapAutorEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/v1/autores").WithTags("Autores").WithOpenApi();
+        var group = app.MapGroup("/api/v1/autores").WithTags("Autores");
 
         group.MapGet("/", async (IAutorService svc) =>
         {

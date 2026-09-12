@@ -3,7 +3,7 @@
 # =============================================================================
 # Serviços:
 #   sqlserver  → SQL Server 2022 (porta 1433)
-#   api        → Acervo.API .NET 8 (porta 5000)
+#   api        → Acervo.API .NET 10 (porta 5000)
 #   web        → acervo-web Angular 17 via Nginx (porta 4200)
 #
 # Uso:
@@ -51,7 +51,7 @@ services:
       - acervo_network
 
   # ---------------------------------------------------------------------------
-  # Acervo.API — .NET 8 Minimal API
+  # Acervo.API — .NET 10 Minimal API
   # ---------------------------------------------------------------------------
   api:
     build:
