@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, mergeMap, tap } from "rxjs/operators";
 import { of } from "rxjs";
@@ -42,7 +43,10 @@ export class AutoresEffects {
     () =>
       this.actions$.pipe(
         ofType(AutoresActions.createAutorSuccess),
-        tap(() => this.notification.success("Autor criado com sucesso!")),
+        tap(() => {
+          this.notification.success("Autor criado com sucesso!");
+          this.router.navigate(["/autores"]);
+        }),
       ),
     { dispatch: false },
   );
@@ -65,7 +69,10 @@ export class AutoresEffects {
     () =>
       this.actions$.pipe(
         ofType(AutoresActions.updateAutorSuccess),
-        tap(() => this.notification.success("Autor atualizado com sucesso!")),
+        tap(() => {
+          this.notification.success("Autor atualizado com sucesso!");
+          this.router.navigate(["/autores"]);
+        }),
       ),
     { dispatch: false },
   );
@@ -97,5 +104,6 @@ export class AutoresEffects {
     private actions$: Actions,
     private svc: AutorService,
     private notification: NotificationService,
+    private router: Router,
   ) {}
 }

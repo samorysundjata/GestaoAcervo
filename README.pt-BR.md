@@ -7,6 +7,7 @@
 ---
 
 [![CI](https://img.shields.io/github/actions/workflow/status/samorysundjata/GestaoAcervo/dotnet.yml?branch=develop&style=flat-square&logo=githubactions&logoColor=white&label=CI)](https://github.com/samorysundjata/GestaoAcervo/actions/workflows/dotnet.yml)
+[![Frontend](https://img.shields.io/github/actions/workflow/status/samorysundjata/GestaoAcervo/frontend.yml?branch=develop&style=flat-square&logo=githubactions&logoColor=white&label=Frontend)](https://github.com/samorysundjata/GestaoAcervo/actions/workflows/frontend.yml)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)
 ![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
@@ -27,6 +28,7 @@
 - [Configuração e Execução — Backend (sem Docker)](#configuração-e-execução--backend-sem-docker)
 - [Configuração e Execução — Frontend (sem Docker)](#configuração-e-execução--frontend-sem-docker)
 - [Executando os Testes](#executando-os-testes)
+  - [Mapa de cobertura](#mapa-de-cobertura)
 - [Estilização — Angular Material + Tailwind CSS v4](#estilização--angular-material--tailwind-css-v4)
 - [Collections](#collections-para-teste-de-api)
 - [Documentação da API](#documentação-da-api)
@@ -220,6 +222,57 @@ Disponível em `http://localhost:4200`
 
 ## Executando os Testes
 
+### Mapa de cobertura
+
+A cobertura de linhas do backend é **coverlet** (unitários + Testcontainers, mesclados). A de statements do frontend é **Karma / Istanbul** nos arquivos importados pelos specs Jasmine — cards, navbar, rotas e `AppComponent` não entram nesse relatório. O Playwright exercita a SPA + API no ar e não gera percentual de linha.
+
+```mermaid
+flowchart TB
+  subgraph backend["Backend .NET 10 — 95,6% linhas · 94 testes"]
+    direction LR
+    D["Domain<br/>100%<br/>9 unitários"]
+    APP["Application<br/>100%<br/>76 unitários"]
+    INF["Infrastructure<br/>93%"]
+    API["API<br/>90%<br/>9 integração"]
+  end
+
+  subgraph frontend["Frontend Angular 17 — 100% statements* · 107 specs"]
+    direction LR
+    HTTP["HTTP + interceptor<br/>services, snackbar"]
+    NGRX["NgRx<br/>reducers, effects, selectors"]
+    UI["UI<br/>listas, forms, dialog"]
+    GAP["Fora do Karma<br/>cards, navbar, rotas"]
+  end
+
+  subgraph e2e["Playwright E2E — 3 fluxos contra SPA + API"]
+    direction LR
+    F1["Listar livros"]
+    F2["CRUD de gênero"]
+    F3["Autor + livro<br/>exclusão 422"]
+  end
+
+  classDef high fill:#bbf7d0,stroke:#15803d,color:#14532d
+  classDef mid fill:#fde68a,stroke:#b45309,color:#78350f
+  classDef skip fill:#e5e7eb,stroke:#64748b,color:#334155
+  classDef flow fill:#bfdbfe,stroke:#1d4ed8,color:#1e3a8a
+  class D,APP,HTTP,NGRX,UI high
+  class INF,API mid
+  class GAP skip
+  class F1,F2,F3 flow
+```
+
+\*O Karma só instrumenta TypeScript puxado por algum spec. Fonte: [`docs/tests/Coverage.puml`](./docs/tests/Coverage.puml).
+
+| Camada | Ferramenta | Testes | Cobertura |
+| --- | --- | --- | --- |
+| Domain | xUnit | 9 | 100% linhas |
+| Application | xUnit + Moq | 76 | 100% linhas |
+| Infrastructure | Testcontainers | com a API | 93% linhas |
+| API | Testcontainers | 9 | 90% linhas |
+| **Backend (mesclado)** | coverlet | **94** | **95,6% linhas (505/528)** |
+| acervo-web unitário | Jasmine + Karma | 107 | 100% statements / 91,9% branches\* |
+| acervo-web E2E | Playwright | 3 | fluxos, sem % de linha |
+
 ### Backend (xUnit + Moq + Testcontainers)
 
 Os testes de integração sobem um **SQL Server 2022** descartável. O Docker Desktop precisa estar em execução (containers Linux).
@@ -232,17 +285,32 @@ dotnet test
 dotnet test --collect:"XPlat Code Coverage"
 ```
 
-### Frontend (Jasmine + Karma)
+### Frontend — testes unitários (Jasmine + Karma)
 
 ```bash
 cd frontend/acervo-web
 
-# Execução única
-ng test --watch=false
+# Execução única (CI)
+npm run test:ci
 
 # Modo watch (desenvolvimento)
-ng test
+npm test
 ```
+
+### Frontend — E2E (Playwright)
+
+O Playwright aciona a SPA no navegador contra a API. **O Docker Compose precisa estar no ar** (ou um stack equivalente nas portas `4200` e `5000`).
+
+```bash
+# Na raiz do repositório
+docker compose up -d --build --wait --wait-timeout 300
+
+cd frontend/acervo-web
+npx playwright install chromium   # só na primeira vez
+npm run e2e
+```
+
+Se `http://localhost:4200` já estiver servindo o app, pule o Compose e execute só `npm run e2e`.
 
 ---
 
@@ -351,7 +419,9 @@ gestaoacervo/
 ├── LICENSE
 |
 ├── docs/
-|   ├── collections/             → Collections para testar a aplicação
+│   ├── C4/                      → Diagramas de contexto, contêiner e componente
+│   ├── tests/Coverage.puml      → Mapa de cobertura de testes
+│   ├── collections/             → Collections para testar a aplicação
 |
 ├── docker/
 │   ├── backend/

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, mergeMap, tap } from "rxjs/operators";
 import { of } from "rxjs";
@@ -44,7 +45,10 @@ export class GenerosEffects {
     () =>
       this.actions$.pipe(
         ofType(GenerosActions.createGeneroSuccess),
-        tap(() => this.notification.success("Gênero criado com sucesso!")),
+        tap(() => {
+          this.notification.success("Gênero criado com sucesso!");
+          this.router.navigate(["/generos"]);
+        }),
       ),
     { dispatch: false },
   );
@@ -69,7 +73,10 @@ export class GenerosEffects {
     () =>
       this.actions$.pipe(
         ofType(GenerosActions.updateGeneroSuccess),
-        tap(() => this.notification.success("Gênero atualizado com sucesso!")),
+        tap(() => {
+          this.notification.success("Gênero atualizado com sucesso!");
+          this.router.navigate(["/generos"]);
+        }),
       ),
     { dispatch: false },
   );
@@ -101,5 +108,6 @@ export class GenerosEffects {
     private actions$: Actions,
     private svc: GeneroService,
     private notification: NotificationService,
+    private router: Router,
   ) {}
 }

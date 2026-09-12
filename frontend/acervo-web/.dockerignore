@@ -9,6 +9,10 @@ node_modules/
 # Local build artifacts
 dist/
 .angular/
+coverage/
+playwright-report/
+test-results/
+e2e/
 
 # Local environment overrides
 src/environments/environment.development.ts

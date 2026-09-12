@@ -19,8 +19,8 @@
   <ng-container matColumnDef="acoes">
     <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
     <mat-cell *matCellDef="let l">
-      <a mat-icon-button [routerLink]="[l.id, 'editar']"><mat-icon>edit</mat-icon></a>
-      <button mat-icon-button color="warn" (click)="onDelete(l.id, l.titulo)"><mat-icon>delete</mat-icon></button>
+      <a mat-icon-button [routerLink]="[l.id, 'editar']" aria-label="Editar"><mat-icon>edit</mat-icon></a>
+      <button mat-icon-button color="warn" aria-label="Excluir" (click)="onDelete(l.id, l.titulo)"><mat-icon>delete</mat-icon></button>
     </mat-cell>
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
