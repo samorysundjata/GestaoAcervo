@@ -29,7 +29,8 @@ builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 
-// Apply migrations automatically on startup
+// Create the schema from the current model if the database is empty.
+// This does not apply EF Core migrations (none exist in this repo).
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AcervoDbContext>();
