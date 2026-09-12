@@ -1,0 +1,24 @@
+@startuml Container
+' Diagrama de Contêineres - Gestão Acervo - C4 Model
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Gestão Acervo - Diagrama de Contêineres
+
+Person(user, "Usuário", "Gerencia o acervo de livros, autores e gêneros")
+
+System_Boundary(gestaoAcervo, "Gestão Acervo") {
+    Container(web, "acervo-web", "Angular 17, NgRx, Material + Tailwind, Nginx", "SPA para consulta e cadastro de autores, gêneros e livros")
+    Container(api, "Acervo.API", ".NET 10, Minimal API, Swagger", "API REST versionada (/api/v1) com regras de negócio e persistência")
+}
+
+System_Ext(sqlServer, "SQL Server", "Banco de dados relacional para persistência de dados")
+
+Rel(user, web, "Utiliza", "HTTP/HTTPS")
+Rel(web, api, "Consome", "HTTP/REST JSON")
+Rel(api, sqlServer, "Lê/Escreve", "EF Core / T-SQL")
+
+SHOW_LEGEND()
+
+@enduml

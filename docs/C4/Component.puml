@@ -1,0 +1,29 @@
+@startuml Component
+' Diagrama de Componentes (Acervo.API) - Gestão Acervo - C4 Model
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Gestão Acervo - Diagrama de Componentes (Acervo.API)
+
+Container_Ext(web, "acervo-web", "Angular 17, NgRx", "SPA que consome a API")
+
+Container_Boundary(api, "Acervo.API") {
+    Component(endpoints, "Endpoints", "Minimal API", "Rotas /api/v1/autores, /generos e /livros; ApiResponse e Swagger")
+    Component(application, "Acervo.Application", "Services, FluentValidation, Mapster", "Casos de uso, DTOs, ViewModels e contratos IRepository")
+    Component(domain, "Acervo.Domain", "Entities, Result", "Autor, Gênero, Livro e regras de domínio")
+    Component(infrastructure, "Acervo.Infrastructure", "EF Core, Repositories", "DbContext, mapeamentos e acesso a dados")
+}
+
+System_Ext(sqlServer, "SQL Server", "Banco de dados relacional para persistência de dados")
+
+Rel(web, endpoints, "Consome", "HTTP/REST JSON")
+Rel(endpoints, application, "Usa", "IAutorService, IGeneroService, ILivroService")
+Rel(application, domain, "Usa", "Entities, Result")
+Rel(application, infrastructure, "Usa", "IAutorRepository, IGeneroRepository, ILivroRepository")
+Rel(infrastructure, domain, "Persiste", "Entities")
+Rel(infrastructure, sqlServer, "Lê/Escreve", "EF Core / T-SQL")
+
+SHOW_LEGEND()
+
+@enduml
