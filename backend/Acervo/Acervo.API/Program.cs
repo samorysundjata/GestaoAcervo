@@ -50,3 +50,5 @@ app.MapGeneroEndpoints();
 app.MapLivroEndpoints();
 
 app.Run();
+
+public partial class Program;

@@ -6,6 +6,7 @@
 
 ---
 
+[![CI](https://img.shields.io/github/actions/workflow/status/samorysundjata/GestaoAcervo/dotnet.yml?branch=develop&style=flat-square&logo=githubactions&logoColor=white&label=CI)](https://github.com/samorysundjata/GestaoAcervo/actions/workflows/dotnet.yml)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)
 ![Angular](https://img.shields.io/badge/Angular-17-DD0031?style=flat-square&logo=angular)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)
@@ -219,10 +220,12 @@ Disponível em `http://localhost:4200`
 
 ## Executando os Testes
 
-### Backend (xUnit + Moq)
+### Backend (xUnit + Moq + Testcontainers)
+
+Os testes de integração sobem um **SQL Server 2022** descartável. O Docker Desktop precisa estar em execução (containers Linux).
 
 ```bash
-# A partir da raiz da solution
+# A partir de backend/Acervo
 dotnet test
 
 # Com relatório de cobertura

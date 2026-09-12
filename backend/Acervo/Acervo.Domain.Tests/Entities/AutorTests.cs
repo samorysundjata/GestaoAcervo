@@ -46,5 +46,17 @@ namespace Acervo.Domain.Tests.Entities
             Assert.NotNull(autor.Livros);
             Assert.Empty(autor.Livros);
         }
+
+        [Fact]
+        public void EfConstructor_ShouldInitializeDefaults()
+        {
+            var autor = (Autor)Activator.CreateInstance(typeof(Autor), nonPublic: true)!;
+
+            Assert.Equal(Guid.Empty, autor.Id);
+            Assert.Equal(string.Empty, autor.Nome);
+            Assert.Equal(string.Empty, autor.Email);
+            Assert.NotNull(autor.Livros);
+            Assert.Empty(autor.Livros);
+        }
     }
 }

@@ -4,5 +4,6 @@
   <Project Path="Acervo.Domain.Tests/Acervo.Domain.Tests.csproj" />
   <Project Path="Acervo.Domain/Acervo.Domain.csproj" />
   <Project Path="Acervo.Infrastructure/Acervo.Infrastructure.csproj" />
+  <Project Path="Acervo.IntegrationTests/Acervo.IntegrationTests.csproj" />
   <Project Path="Acervo.Tests/Acervo.Tests.csproj" />
 </Solution>
