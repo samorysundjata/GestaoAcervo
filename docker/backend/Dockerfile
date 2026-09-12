@@ -4,8 +4,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copia os arquivos de projeto para restaurar dependências (cache de layers)
-COPY ["global.json", "./"]
+# Do NOT copy global.json here. It pins a host SDK (e.g. 10.0.401) that often
+# has no matching MCR tag; restore would fail with "SDK specified in
+# global.json was not found". The image tag supplies the SDK. global.json is
+# also listed in the build-context .dockerignore so `COPY . .` cannot sneak it
+# back in.
 COPY ["Acervo.API/Acervo.API.csproj",             "Acervo.API/"]
 COPY ["Acervo.Application/Acervo.Application.csproj", "Acervo.Application/"]
 COPY ["Acervo.Infrastructure/Acervo.Infrastructure.csproj", "Acervo.Infrastructure/"]
